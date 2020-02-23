@@ -1,0 +1,31 @@
+{
+  "name": "scrapping",
+  "version": "1.0.0",
+  "main": "scrap.js",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3",
+    "fs-extra": "^8.1.0",
+    "http": "0.0.0",
+    "jsonfile": "^5.0.0",
+    "jsonld": "^2.0.2",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prussian-blue/webinar-scrapping.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prussian-blue/webinar-scrapping/issues"
+  },
+  "homepage": "https://github.com/prussian-blue/webinar-scrapping#readme",
+  "description": ""
+}
