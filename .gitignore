@@ -1,2 +1,7 @@
 myProject00
 myProject00_nodejs
+myProject00_scraping/cheerio-1.0.0
+myProject00_scraping/puppeteer-master
+package-lock.zip
+myProject00_scraping/*.pdf
+myProject00_scraping/*.zip
