@@ -22,6 +22,7 @@ let scientists = [];
 function findYear(idx, data) {
   data(".infobox.biography.vcard tr").each((index, val) => {
     let row = cheerio.load(val);
+    console.log('row: ', row);
     if (row.html().indexOf("Fallecimiento") > -1) {
       let agePosition = row.html().search(/\([1-9][0-9]/g);
       scientists[idx] = {
