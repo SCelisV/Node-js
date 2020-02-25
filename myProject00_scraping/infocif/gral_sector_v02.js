@@ -16,7 +16,8 @@ const writeStream = fs.createWriteStream('infocif.csv'); // fichero de salida ar
 // function init() {
 
 console.log("inicio - ");
-var pag = 20;
+
+var pag = 1;
 
 var i = 1;
 
@@ -39,12 +40,11 @@ while (i <= pag) { //
     }
     
     i += 1; 
+    
+    var long = empresas.length;
 
 }
-
 console.log("fin - i: " + i + " pag - pag: " + pag);
-
-// }//fin - function init()
 
 function consult(new_uri) {
 
@@ -69,25 +69,22 @@ function consult(new_uri) {
                     
                     }
                     
-                    
                 });
 
                 console.log(empresas); // imprimo el arreglo de salida
+
+                fs.writeFile("empresas.txt", empresas, (err) => {
+                    if (err) console.log(err);
+                    console.log("Successfully Written to File.");
+                });
                 
                 var long = empresas.length;
-                console.log('empresas_long: ', long); // imprimo la longitud del arreglo
 
+                // console.log('empresas_long: ', long); // imprimo la longitud del arreglo
 
             }//fin - if(!err & res.statusCode == 200)
 
-
-
-
-
-        });//fin - request(new_uri, (err, res, body)
-
-        return empresas;
-                
+        });//fin - request(new_uri, (err, res, body)             
 
 };//fin - function consult(new_uri) {
 
