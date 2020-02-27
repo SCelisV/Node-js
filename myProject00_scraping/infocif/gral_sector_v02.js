@@ -3,8 +3,6 @@ const cheerio = require('cheerio');
 
 const request = require('request');
 const fs = require('fs-extra');
-const writeStream = fs.createWriteStream('infocif.csv'); // fichero de salida archivo y add data a medida que lo voy ejecutando
-
 
 // http://www.infocif.es/ranking/ventas-empresas/espana
 // http://www.infocif.es/ranking/ventas-empresas/espana?pagina=2
@@ -15,9 +13,9 @@ const writeStream = fs.createWriteStream('infocif.csv'); // fichero de salida ar
 
 // function init() {
 
-console.log("inicio - ");
+// console.log("inicio - ");
 
-var pag = 1;
+var pag = 3;
 
 var i = 1;
 
@@ -44,17 +42,20 @@ while (i <= pag) { //
     var long = empresas.length;
 
 }
-console.log("fin - i: " + i + " pag - pag: " + pag);
+
+// console.log("fin - i: " + i + " pag - pag: " + pag);
+
+console.log("Successfully Written to File.");
 
 function consult(new_uri) {
 
-    console.log('consult_new_uri: ', new_uri);
+    // console.log('consult_new_uri: ', new_uri);
 
         request(new_uri, (err, res, body) => {
 
             if(!err & res.statusCode == 200){
 
-                console.log('statusCode 200: ', new_uri);
+                // console.log('statusCode 200: ', new_uri);
 
                 let $ = cheerio.load(body);
 
@@ -71,14 +72,30 @@ function consult(new_uri) {
                     
                 });
 
-                console.log(empresas); // imprimo el arreglo de salida
+                // console.log(empresas); // imprimo el arreglo de salida
+                // Escribe una línea por cada posición del arreglo en un fichero de texto
+                var file = fs.createWriteStream('empresas.txt'); // fichero de salida 
 
-                fs.writeFile("empresas.txt", empresas, (err) => {
-                    if (err) console.log(err);
-                    console.log("Successfully Written to File.");
-                });
+                file.on('error', function(err) { 
+                        console.log("WROOOOONG Written to File." +  err); 
                 
-                var long = empresas.length;
+                });
+
+                empresas.forEach(function(v) { 
+                    file.write(v + '\n'); 
+                });
+
+                file.end();
+
+                // console.log("Successfully Written to File.");
+
+                // escribe cada posición del arreglo separado por comas en una sóla línea en un fichero de texto
+                // fs.writeFile("empresas.txt", empresas, (err) => {
+                //     if (err) console.log(err);
+                //     console.log("Successfully Written to File.");
+                // });
+                
+                // var long = empresas.length;
 
                 // console.log('empresas_long: ', long); // imprimo la longitud del arreglo
 
@@ -86,5 +103,5 @@ function consult(new_uri) {
 
         });//fin - request(new_uri, (err, res, body)             
 
-};//fin - function consult(new_uri) {
+    };//fin - function consult(new_uri) {
 
