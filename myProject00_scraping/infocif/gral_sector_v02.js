@@ -78,11 +78,10 @@ function consult(new_uri) {
 
                 file.on('error', function(err) { 
                         console.log("WROOOOONG Written to File." +  err); 
-                
                 });
 
-                empresas.forEach(function(v) { 
-                    file.write(v + '\n'); 
+                empresas.forEach(function(escribe) { 
+                    file.write(escribe + '\n'); 
                 });
 
                 file.end();
