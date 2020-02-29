@@ -10,6 +10,7 @@
     "http": "0.0.0",
     "jsonfile": "^5.0.0",
     "jsonld": "^2.0.2",
+    "node-fetch": "^2.6.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.5"
   },
