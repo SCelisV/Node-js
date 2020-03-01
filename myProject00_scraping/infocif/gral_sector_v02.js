@@ -59,7 +59,8 @@ function consult(new_uri) {
 
                 let $ = cheerio.load(body);
 
-                $('a.fs11').each(function (){
+                $('a.fs11').each(() => {
+
                     var webhref = $(this).attr('href');
                 
                     if (webhref.indexOf('http://www.infocif.es/ficha-empresa/') != -1){
@@ -69,6 +70,8 @@ function consult(new_uri) {
                             empresas.push(webhref); //add un elemento al arreglo empresas
                     
                     }
+
+                    // console.log(`${index}: ${val}`)
                     
                 });
 
