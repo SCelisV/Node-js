@@ -4,4 +4,7 @@ myProject00_scraping/cheerio-1.0.0
 myProject00_scraping/puppeteer-master
 package-lock.zip
 myProject00_scraping/*.pdf
-myProject00_scraping/*.zip
+myProject00_scraping/*.json
+myProject00_scraping/*.txt
+myProject00_scraping/*.csv
+myProject00_scraping/*.html
