@@ -8,7 +8,7 @@ myProject00_scraping/*.json
 myProject00_scraping/*.txt
 myProject00_scraping/*.csv
 myProject00_scraping/*.html
-myProject00_scraping/infocif/load*
+myProject00_scraping/infocif/*.js
 myProject00_scraping/infocif/local/*.pdf
 myProject00_scraping/infocif/local/*.json
 myProject00_scraping/infocif/local/*.txt
