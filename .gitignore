@@ -1,0 +1,9 @@
+local
+node-modules
+*.txt
+*.pdf
+*.zip
+*.html
+*.json
+*.html
+*.csv
