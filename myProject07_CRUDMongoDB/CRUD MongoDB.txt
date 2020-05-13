@@ -1,0 +1,204 @@
+
+comandos node.js
+
+npm init -y => crea package.json para listar los modulos y dependencias que vamos a utilizar y crear comandos 
+
+npm install express connect-flash bcryptjs express-handlebars express-session method-override mongoose passport passport-local
+
+express => framework para crear un servidor
+connect-flash => enviar mensajes entre las vistas (comunicación entre las páginas)
+bcryptjs => modulo de cifrado de texto como son las contraseñas que crean los HASH que son algoritmos que se crear a partir de una entrada para crear una salida de longitud fija que representa un resumen de toda la información de entrada
+express-handlebars =>  Motor de plantillas para crear las vistas
+express-session => guardar datos desde la memoria del servidor (login del usuario y mantenerlo conectado)
+method-override => enviar peticiones put o delete desde la vista 
+mongoose => ORM Hace las consultas y Evita escribir sintaxis específica de la db y la función va a seguir funcionando..
+passport => permite identificar al usuario para verificar el usuario
+passport-local => DB local
+
+npm install dotenv nodemon npm-check-updates -D 
+
+instalar como dependencia de desarrollo -D 
+
+dotenv => utilizar variables de entorno, guardar información de la db, key, token...etc en este ordenador
+nodemon => reiniciar el ordenador 
+npm-check-updates => supervisar si hay nuevos modulos ó actualizaciones
+handlebars => para solucionar problemas de express-handlebars
+
+index.js => arrancar la aplicación archivo principal 
+server.js => código del servidor
+database.js => solo la conexión de lade datos 
+
+mkdir config controllers helpers models public routes views
+
+config => configurar algunos módulos models 
+controllers => a almacenar funciones que vamos a estar utilizando cuando el usuario visite alguna ruta del servidor
+helpers => colocaras funciones que desde la vista hagan algo o algo, es decir, proveen código adicional añadido a los handelbars 
+models => almacenar modelos de datos, es decir, los esquemas que vamos a usar en MongoDB
+public => colocar archivos públicos como podrían ser css imágenes ó cualquier otro archivo al que el navegador puede acceder libremente
+routes => rutasque tendrá nuestro servidor 
+views => archivos handlebars 
+
+---------------------------
+
+server.js => utilizar el framework del servidor que es express
+const express = require('express')
+
+const app = express() => ejecución del modulo que retorna un objeto
+
+module.exports = app => exporta el modulo 
+
+---------------------------
+
+settings => configuraciones que quiero que haga basado en algunos modulos
+
+configurar el puerto porque si por ejemplo lo subimos a un servidor heroku => https://www.heroku.com/ nos va a asignar un puerto por lo tanto
+establecemos una configuración
+
+
+app.set('port', process.env.PORT || 4000) => hace referencia a una variable del sistema
+operativo, es decir, si nuestro sistema tiene una variable llamada port que utilice esa
+variable y si no existe utilice otro puerto: 4000 
+
+app.set('views', __dirname + '/views') => esto nos servirá para linux pero no para windows devuelve la dirección de en donde está este archivo
+
+app.set('views', path.join(__dirname, 'views')) => devuelve la dirección de en donde está este archivo
+
+const path = require('path') => importar el modulo ya viene instalado por defecto 
+---------------------------
+
+middleware => funciones que se ejecutan a medida que van llegando peticiones 
+
+app.use(express.urlencoded({extended: false})) => este middleware se configura para enviar y recibir datos entre el servidor y el cliente a través de
+un formulario ó de JSON => convertir en JSON para manipular en código
+---------------------------
+
+
+global variables => crear variables que vamos a poder acceder en todo nuestro proyecto 
+
+---------------------------
+
+
+routes => aquí tan sólo se importan ya que cada uno tendrá su propio archivo
+
+app.get('/', (req, res) => {   // Cuando el usuario visite está página ("/")
+    res.send('Hello World')    // responde con 
+})
+
+---------------------------
+
+static files => archivos que el navegador para poder acceder directamente del servidor sin pedir autenticación
+
+app.use(express.static(path.join(__dirname, 'public')))  // => devuelve la dirección de en donde está este archivo
+---------------------------
+
+---------------------------
+
+index.js => es el encargado de arrancar la base de datos arrancar el servidor y hacer otras configuraciones básicas 
+
+require('dotenv').config() // => lee el fichero .env de los datos de conexion
+
+console.log(process.env.NAMEVAR) // => accedo a las variables de entorno del fichero de configuración .env
+
+importar el app 
+const app = require('./server') => está dentro del mismo proyecto
+
+require('./database') // => conexion a la DB
+
+app.listen(3000, () => {        => ejecutar el servidor en el puerto 3000
+    console.log('Server on port 3000')
+})
+
+desde la consola ejecutamos: node src/index.js  => en el navegador http://localhost:3000 express ya está funcionando
+el servidor envia el error: Cannot GET / porque no hay ninguna ruta creada en el servidor
+
+modifico la ejecución del servidor para obtener el puerto 
+app.listen(app.get('port'), () => { 
+    console.log('Serve on port ' , app.get('port'))
+})
+
+desde la consola ejecutamos: node src/index.js  => en el navegador http://localhost:4000 express ya está funcionando
+el servidor envia el error: Cannot GET / porque no hay ninguna ruta creada en el servidor
+
+
+---------------------------
+
+package.json => 
+
+  "scripts": {
+    "start": "node src/index.js"
+    "dev": "nodemon src/index.js"
+  },
+
+desde la consola ejecutar => npm start
+
+desde la consola ejecutar => npm run dev => ejecuta nodemon para que vigile los cambios de tal forma es más rápido el desarrollo
+---------------------------
+
+MongoDB => mantener ejecutando mongodb 
+
+mongo "mongodb+srv://clustename.mongodb.net/test" --username user 
+
+clustename => cluster to connect
+user => user to connect
+
+---------------------------
+
+database.js => archivo encargado de tener la conexión 
+const mongoose = require("mongoose") => requerir el modulo y guardalo en una constante
+
+mongoose.connect('mongodb+srv://clustename.mongodb.net/test') // conectar a la base de datos
+
+lo mejor es dejar los datos de la conexion en un fichero independiente para lo que vamos a utilizar el método config del modulo dotenv
+
+const MONGODB_URI = 'mongodb+srv://clustename.mongodb.net/test'
+
+mongoose.connect(MONGODB_URI, {
+
+  // parametros del MongoClient.connect => si no los informamos dará errores.. 
+
+})
+
+requerir este fichero en el index.js y al ejecutarlo con npm run dev => nos devuelve estos errores.. 
+
+(node:21541) DeprecationWarning: current URL string parser is deprecated, and will be removed in a future version. To use the new parser, pass option { useNewUrlParser: true } to MongoClient.connect.
+Serve on port  4000
+(node:21541) DeprecationWarning: current Server Discovery and Monitoring engine is deprecated, and will be removed in a future version. To use the new Server Discover and Monitoring engine, pass option { useUnifiedTopology: true } to the MongoClient constructor.
+
+mongoose.connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}) 
+    .then(db => console.log('Database connect')) // => si se conecta nos envia el mensaje por consola
+    .catch(err => console.log(err))             // => si NO se conecta nos enviará el mensaje de error por consola
+
+
+---------------------------
+Hay varias formas de utilizar las variables de entorno:
+
+Una forma por ejemplo:
+
+.env
+MONGODB_URI = 'escribir la uri completa'
+const MONGODB_URI = process.env.MONGODB_URI // => accedo a las variables de entorno del fichero de configuración .env
+
+Otra forma podría ser:
+
+.env
+HOKKAIDO_MONGODB_HOST=escribir el nombre/dirección del host
+HOKKAIDO_MONGODB_DB=escribir la base de datos  
+
+const HOKKAIDO_MONGODB_HOST = process.env.HOKKAIDO_MONGODB_HOST // => accedo a las variables de entorno del fichero de configuración .env
+const HOKKAIDO_MONGODB_DB = process.env.HOKKAIDO_MONGODB_HOST // => accedo a las variables de entorno del fichero de configuración .env
+
+Otra forma podría ser:
+
+.env
+HOKKAIDO_MONGODB_HOST=escribir el nombre/dirección del host
+HOKKAIDO_MONGODB_DB=escribir la base de datos  
+HOKKAIDO_MONGODB_USER=escribir el nombre del usuario
+HOKKAIDO_MONGODB_PASS=escribir el password del ususario
+
+const {HOKKAIDO_MONGODB_HOST, HOKKAIDO_MONGODB_DB, HOKKAIDO_MONGODB_USER, HOKKAIDO_MONGODB_PASS} = process.env
+
+MONGODB_URI = `mongodb+srv://${HOKKAIDO_MONGODB_HOST}/${HOKKAIDO_MONGODB_DB}--username${HOKKAIDO_MONGODB_USER}--password${HOKKAIDO_MONGODB_PASS}`
+
