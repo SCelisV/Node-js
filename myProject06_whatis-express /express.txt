@@ -1,0 +1,287 @@
+// Creación de un servidor - manualmente en node
+
+const http = require("http")
+
+// envia la respuesta
+
+const server = http.createServer((req, res) => {
+    res.status = 200
+    res.setHeader('Content-Type', 'text/plain')
+    res.end('Hello World')
+})
+
+server.listen(3000, () => {
+    console.log("Serve on port 3000")
+})
+
+- al ejecutar este código con npm index.js => 
+
+1. creará un servidor local que estará escuchando en el puerto 3000 => http://localhost:3000/
+y escribirá el texto: Hello World.
+
+2. por consola mostrara el mensaje: Serve on port 3000
+
+
+
+// Creación de un servidor - con express
+// Instalar un framework en nodejs
+// npm init -y => crea el package.json => información del proyecto y las dependencias
+
+// npm install express => instalar un nuevo paquete en este proyecto,
+crea node_modules => contiene modules para que express funcione
+package-lock.json => administración de dependencias y modulos.
+
+http://expressjs.com/en/4x/api.html#express
+
+importar express => 
+
+-   internamente utiliza el modulo http
+
+const express = require("express")
+
+ejecutar express =>
+
+const app = express() => devuelve un objeto que al final es un servidor
+
+app => es el servidor por tanto con esto simplemente le digo que me escuche en el puerto 3000 y que me escriba un mensaje por consola: "Serve on port 3000"
+
+app.listen(3000, () => { 
+    console.log("Serve on port 3000")
+})
+
+Con código "puro" de node inmediatamente funcionaba el servidor.
+
+- al ejecutar este código con npm index.js => 
+
+me devolverá un "Error" => Cannot GET / 
+
+porque no le hemos definido una ruta de inicio, 
+
+cuando reciba un método get a la ruta inicial de la aplicación ("/"), 
+le enviamos como respuesta un mensaje 'Hello World'
+
+app.get('/', (req, res) => {   //Cuando el usuario visite está página ("/")
+    res.send('Hello World')    // Le mostramos esto
+})
+
+// Antes de los Middlewares definimos la Configuración del servidor express
+//Setting
+
+app.set('appName', 'What is Exppress..')
+
+Y cuando se inicie el servidor obtengo el valor de la variable: console.log(app.get('appName'))
+
+
+// Antes del Enrutamiento definimos los Middlewares
+
+// Middlewares = (Manejador de petición que se ejecuta antes de que llegue a su ruta final), Recibe el objeto request body y procesarlo para convertirlo en JSON y llegar a su ruta 
+// funciona para cualquier ruta que creemos (hay diferentes tipos de Middlewares Autenticación, cambiar datos, subir imagenes )
+
+// Función Middleware - Al hacer cualquier petición.. El servidor va a registrarla...
+function logger (req, res){
+    console.log("ha pasado por esta función all")
+    res.send("End")
+})                          // función de express que nos permite definir una funcionalidad general para cualquier ruta que queramos..., es decir, hacer algo antes de ejecutar la ruta que ha pedido el usuario
+
+Por consola obtengo esto:
+Serve on port 5000
+ha pasado por esta función all
+
+ y TERMINA, .. para que Continue con las rutas incluimos next
+
+function logger (req, res, next){
+     console.log(`Request recibida: ${req.protocol}://${req.get('host')}${req.originalUrl}`) //
+     next()
+}                         // función de express que nos permite definir una funcionalidad general para cualquier ruta que queramos..., es decir, hacer algo antes de ejecutar la ruta que ha pedido el usuario
+
+
+app.use(express.json())     // Middleware que Indica a express que con esto puede entender los objetos json
+
+// usar la función Middleware
+app.use(logger)
+
+// En consola aparecerá una línea cada vez que el usuario me pida una petición
+Serve on port 5000
+Request recibida: http://localhost:5000/user
+Request recibida: http://localhost:5000/user
+Request recibida: http://localhost:5000/ni%20puta%20idea%20que%20pedir
+
+// Hay un módulo "morgan" que justamente hace esto por tanto no hay que crear todos los Middlewares 
+// https://www.npmjs.com/package/morgan - para instalarlo npm i morgan, luego se requiere y se usa (Predefined Formats)
+
+// const morgan = require("morgan")
+// app.use(morgan('dev')) - // Escribe las rutas solicitas por el usuario en el servidor - nos dá un formato similar a nuestra función logger
+
+Al ejecutar por el Postman: http://localhost:5000/user/456, en la consola aparece el mensaje: 
+{ username: 'POST Sonia', lastname: 'POST Celis' }
+{ id: '456' }
+POST /user/456 200 1.847 ms - 23 
+methodo: POST 
+dirección solicitada por el usuario: /user/456 
+respuesta del servidor: 200 
+tiempo de respuesta: 1.847 ms - 
+peso de la respuesta: 23
+Al ejecutar por el servidor: http://localhost:5000/, en la consola aparece un mensaje: GET / 304 0.207 ms - -
+Al ejecutar por el servidor: http://localhost:5000/user, en la consola aparece un mensaje: GET /user 304 0.582 ms - -
+
+// Enrutamiento = Route = Una ruta a seguir por el usuario : 
+
+http://expressjs.com/en/starter/basic-routing.html
+http://expressjs.com/en/guide/routing.html
+http://expressjs.com/en/5x/api.html#app
+
+// app.all('/user', (req, res, next) => {
+//     console.log("ha pasado por esta función all")
+//     next()
+// })                          // función express en la que definimos lo que queremos hacer para cualquier ruta '/user' que ejecute el usuario
+
+Diferentes rutas para diferentes métodos - guardadas en Postman
+
+app.get => {   // Función para enviar el metodo get, devolver cosas
+app.post => {   // Función para recibir el metodo post, el navegador me quiere enviar un dato, recibo, proceso, respondo
+app.put => {   // Función para recibir el metodo put, el navegador me quiere actualizar un dato, recibo, proceso, actualizo, respondo
+app.delete => {   // Función para recibir el metodo delete, el navegador me quiere eliminar un dato, recibo, proceso, delete, respondo
+
+app.get('/', (req, res) => {            //ok
+    res.send('PETICIÓN GET RECIBIDA')
+})
+
+app.get('/about', (req, res) => {   //Cuando el usuario visite está página ("/about")
+    res.send('About me')            // Le mostramos este mensaje
+})
+
+app.post('/about', (req, res) => {      //Cannot GET /about => devuelve error => porque por defecto los navegadores envian peticiones get 
+    res.send('PETICIÓN POST RECIBIDA')  //Probar con Postman => POST: http://localhost:5000/about => devolverá: PETICIÓN POST RECIBIDA
+})
+
+app.put('/contact', (req, res) => {
+    res.send('PETICIÓN PUT RECIBIDA')    //Probar con Postman => http://localhost:5000/contact => devolverá: PETICIÓN PUT RECIBIDA
+})
+
+app.delete('/test', (req, res) => {
+    res.send('<h1>DELETE REQUEST RECIBIDA</h1>') //Probar con Postman => http://localhost:5000/test => devolverá: <h1>DELETE REQUEST RECIBIDA</h1>
+})
+
+app.get('/user', (req, res) => {
+    res.json({
+        username: 'Sonia',
+        lastname: 'Celis'
+    })                      // Devolver un objeto json => http://localhost:5000/user
+})
+
+app.post('/user', (req, res) => {  
+    console.log(req.body)                   // Cuerpo de la petición
+    res.send('PETICIÓN POST RECIBIDA') 
+})                                          // Recibe un objeto json => http://localhost:5000/user               
+
+Por consola obtengo:
+
+Serve on port 5000
+{ username: 'POST Sonia', lastname: 'POST Celis' }
+
+
+Peticiones dinámicas
+
+app.post('/user/:id', (req, res) => {  
+    console.log(req.body)
+    console.log(req.params)                 // Parámetros de la petición
+    res.send('PETICIÓN POST RECIBIDA') 
+})                                          // Recibe un objeto json => http://localhost:5000/user/456   
+
+Por consola obtengo:
+
+Serve on port 5000
+{ username: 'POST Sonia', lastname: 'POST Celis' }
+{ id: '456' }
+
+
+app.delete('/user/:userId', (req, res) => {
+    res.send(`User ${req.params.userId} ha sido eliminado`)
+})                                          // Delete un usuario => http://localhost:5000/user/123
+
+
+app.put('/user/:id', (req, res) => {
+    console.log(req.body)
+    console.log(req.params)
+    res.send(`User ${req.params.id} ha sido actualizado`)
+})                                          // Actualiza un usuario => http://localhost:5000/user/123
+
+
+Por consola obtengo:
+Serve on port 5000
+{ username: 'UPDATE Sonia', lastname: 'UPDATE Celis' }
+{ id: '123' }
+
+
+Static => Enviar archivos al FrontEnd => Este Middlewares se va a ejecutar después de pasar por todas las rutas
+
+app.use(express.static('public')) => es un Middleware de express no hay que instalarlo
+
+
+Para que se detecten los cambios inmediatamente
+Instalar nodemon => reinicia automáticamente la aplicación cuando se detectan cambios en el directorio.
+https://www.npmjs.com/package/nodemon
+https://github.com/remy/nodemon
+
+npm install -g nodemon => para instalar globalmente
+
+npm install --save-dev nodemon ó npm i nodemon -D => sólo para el proyecto por tanto para ejecutarlo debo utilizar el siguiente comando:
+
+npx nodemon index.js
+
+https://developer.mozilla.org/es/docs/Web/HTTP/Methods
+
+// Motor de plantillas - https://expressjs.com/es/guide/using-template-engines.html
+npm install ejs => sólo hay que instalarlo, ya que esta integrado y no hay que requerirlo, simplemente debemos establecerlo en la configuración:
+app.set('view engine', 'ejs')
+
+app.get('/', (req, res) => {   // Cuando el usuario visite está página ("/")
+    const data = [{'name':'Sonia'}, {'name': 'EllioT'}, {'name': 'Sami'}] // Tres objetos de una DB almacenados en una constante
+    res.render('index.ejs', {people: data})    // pintará por pantalla la index.ejs
+})
+
+Motor de plantillas => EJS, https://ejs.co/
+
+    <ul>
+        <% people.forEach(function(person) { %>
+            <li><%= person.name %></li>
+        <%  }) %>
+    </ul>
+
+Motor de plantillas: pug template engine, https://pugjs.org/api/getting-started.html, https://pugjs.org/api/express.html, https://www.npmjs.com/package/pug, 
+
+Motor de plantillas: https://handlebarsjs.com/, https://www.npmjs.com/package/handlebars
+
+Databases: 
+
+http://expressjs.com/en/guide/database-integration.html
+
+https://www.npmjs.com/package/mongodb
+
+https://www.npmjs.com/package/sequelize => Sequelize ORM for Postgres, MySQL, MariaDB, SQLite and Microsoft SQL Server
+
+
+ORM => Hace las consultas y Evita escribir sintaxis específica de la db y la función va a seguir funcionando..
+
+https://sequelize.org/
+
+https://mongoosejs.com/
+
+Otros framework del lado del servidor:
+
+Hapi => hapijs.com => https://github.com/hapijs
+
+https://adonisjs.com/ => mucho más establecido que espress 
+
+https://sailsjs.com/ => basado en espress = te dá una extructura
+
+PHP Frameworks - Laravel => https://laravel.com/
+
+Python Frameworks - Django => https://www.djangoproject.com/
+
+Koa => https://koajs.com/ => parecido a express
+
+http://krakenjs.com/ => PayPal => no es muy popular
+
+Zeit Now => https://www.npmjs.com/package/now
+
