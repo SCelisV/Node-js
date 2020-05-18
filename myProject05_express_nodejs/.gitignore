@@ -1,5 +1,5 @@
 local
-node_modules
+node-modules
 *.txt
 *.pdf
 *.zip
@@ -8,5 +8,4 @@ node_modules
 *.html
 *.csv
 .env
-build
-data
+
