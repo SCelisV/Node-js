@@ -32,7 +32,7 @@ const detailsEmpresas = new Schema ({ // => define el esquema a utilizar
     timestamps: true
 })
 
-module.exports = model('detailsEmpresas', detailsEmpresas, 'EmpresasDetails') // => Nombre del modelo y Nombre del esquema collection
+module.exports = model('detailsEmpresas', detailsEmpresas, 'nodeEmpresasDetails') // => Nombre del modelo y Nombre del esquema collection
 // module.exports = model('detailsEmpresas', detailsEmpresas, 'nodeEmpresasDetails') // => Nombre del modelo, esquema, collection
 
 // propertyID: String, 

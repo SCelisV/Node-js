@@ -1,0 +1,50 @@
+<div class="col-md-4 mx-auto">
+    <div class="card">
+        <div class="card-header">
+            <h3>Edición Empresa</h3>
+        </div>
+        <div class="card-body">
+            <form action="/detailsEmpresas/update/{{detailEmpresas.id}}?_method=PUT" method="POST">
+                <input type="hidden" name="_method" id="_method" value="PUT">
+                {{!-- <div class="from-group"><input type="text" name="name" id="name" required="true" class="form-control" value="{{detailEmpresas.}}"
+                        ></input></div> --}}
+                {{!-- <div class="from-group"><input type="text" name="alternateName" id="alternateName" required="true" class="form-control" value="{{detailEmpresas.}}"
+                        ></input></div> --}}
+                <div class="from-group"><input type="text" name="alternateName" id="alternateName" class="form-control" value="{{detailEmpresas.alternateName}}"></input></div>
+                <div class="from-group"><input type="text" name="logo" id="logo" class="form-control" value="{{detailEmpresas.logo}}"></input></div>
+                <div class="from-group"><input type="text" name="image" id="image" class="form-control" value="{{detailEmpresas.image}}"></input></div>
+                <div class="from-group"><input type="text" name="foundingDate" id="foundingDate" class="form-control" value="{{detailEmpresas.foundingDate}}"></input></div>
+                <div class="from-group"><input type="text" name="foundingLocation" id="foundingLocation" class="form-control" value="{{detailEmpresas.Location}}"></input></div>
+                <div class="from-group"><input type="text" name="isicV4" id="isicV4" class="form-control" value="{{detailEmpresas.isicV4}}"></input></div>
+                <div class="from-group"><input type="text" name="numberOfEmployees" id="numberOfEmployees" class="form-control" value="{{detailEmpresas.numberOfEmployees}}"></input></div>
+                <div class="from-group"><input type="text" name="taxID" id="taxID" class="form-control" value="{{detailEmpresas.taxID}}"></input></div>
+                <div class="from-group"><input type="text" name="telephone" id="telephone" class="form-control" value="{{detailEmpresas.telephone}}"></input></div>
+                <div class="from-group"><input type="text" name="description" id="description" class="form-control" value="{{detailEmpresas.description}}"></input></div>
+                <div class="from-group"><input type="text" name="identifier" id="identifier" class="form-control" value="{{detailEmpresas.identifier}}"></input></div>
+                <div class="from-group"><input type="text" name="propertyID" id="propertyID" class="form-control" value="{{detailEmpresas.propertyID}}"></input></div>
+                <div class="from-group"><input type="text" name="founder" id="founder" class="form-control" value="{{detailEmpresas.founder}}"></input></div>
+                <div class="from-group"><input type="text" name="jobTitle" id="jobTitle" class="form-control" value="{{detailEmpresas.jobTitle}}"></input></div>
+                <div class="from-group"><input type="text" name="worksFor" id="worksFor" class="form-control" value="{{detailEmpresas.worksFor}}"></input></div>
+                <div class="from-group"><input type="text" name="contactPoint" id="contactPoint" class="form-control" value="{{detailEmpresas.contactPoint}}"></input></div>
+                <div class="from-group"><input type="text" name="telephone" id="telephone" class="form-control" value="{{detailEmpresas.telephone}}"></input></div>
+                <div class="from-group"><input type="text" name="contactType" id="contactType" class="form-control" value="{{detailEmpresas.contactType}}"></input></div>
+                <div class="from-group"><input type="text" name="areaServed" id="areaServed" class="form-control" value="{{detailEmpresas.areaServed}}"></input></div>
+                <div class="from-group"><input type="text" name="availableLanguage" id="availableLanguage" class="form-control" value="{{detailEmpresas.availableLanguage}}" ></input></div>
+                <div class="from-group"><input type="text" name="url" id="url" class="form-control" value="{{detailEmpresas.url}}"></input></div>
+                <div class="from-group"><input type="text" name="address" id="address" class="form-control" value="{{detailEmpresas.address}}"></input></div>
+                <div class="from-group"><input type="text" name="addressLocality" id="addressLocality" class="form-control" value="{{detailEmpresas.addressLocality}}" ></input></div>
+                <div class="from-group"><input type="text" name="addressRegion" id="addressRegion" class="form-control" value="{{detailEmpresas.addressRegion}}"></input></div>
+                <div class="from-group"><input type="text" name="postalCode" id="postalCode" class="form-control" value="{{detailEmpresas.postalCode}}"></input></div>
+                <div class="from-group"><input type="text" name="streetAddress" id="streetAddress" class="form-control" value="{{detailEmpresas.streetAddress}}"></input></div>
+                <div class="from-group">
+                    <button class="btn btn-primary btn-block" type="submit">
+                        Update
+                    </button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

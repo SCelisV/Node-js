@@ -2,11 +2,14 @@ html,
 body{
     margin:0;
     padding:0;
-    background:rgb(90, 90, 90)
+    background:rgb(245, 234, 234)
     ;}
-body{
+.logo{
+    width: 30%
+}
+/* body{
     color:#ffffff
-    ;}
+    ;} */
 /* a {
     color:#505050;
     text-decoration: none;

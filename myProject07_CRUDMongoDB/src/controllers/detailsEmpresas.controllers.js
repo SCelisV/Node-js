@@ -4,7 +4,7 @@ const detailsEmpresasCtrl = {};   // => creo el objeto detailsEmpresasCtrl
 
 detailsEmpresasCtrl.formEmpresa = (req, res) => { // => renderiza el formulario de las empresas
     // res.send('formEmpresa') // => muestra un mensaje
-    res.render('empresas/formEmpresa')
+    res.render('empresas/formEmpresa') // => renderiza el formulario
 }
 
 detailsEmpresasCtrl.addEmpresa = async (req, res) => { // => crea una nueva empresa
@@ -22,25 +22,36 @@ detailsEmpresasCtrl.addEmpresa = async (req, res) => { // => crea una nueva empr
     // const obj = JSON.parse(JSON.stringify(req.body))
     // console.log(obj)
     await newDetailsEmpresas.save()
-    res.send('addEmpresa')
+    req.flash('ok_messages', 'Empresa ADICIONADA correctamente')
+    res.redirect('/detailsEmpresas/')
 }
 
 detailsEmpresasCtrl.listaEmpresas =  async (req, res) => { // => consulta todas las empresas
-//     const detailsEmpresas = await detailsEmpresas.find(); // busca las empresas en la db y lo almacena en un arreglo
-    // res.send('empresas/listaEmpresas.hbs') // paso el arreglo como objeto al listaEmpresas.hbs
-    res.send('listaEmpresas')
+    const detailEmpresas = await detailsEmpresas.find() // busca las empresas en la db y lo almacena en un arreglo
+    res.render('empresas/listaEmpresas', {detailEmpresas}) // paso el arreglo como objeto al listaEmpresas.hbs
 }
 
-detailsEmpresasCtrl.consultaEmpresa = (req, res) => { // => Recupera el formulario con los datos de una empresa por el ID ó Identificador Físcal
-    res.send('consultaEmpresa')
+detailsEmpresasCtrl.consultaEmpresa = async(req, res) => { // => Recupera el formulario con los datos de una empresa por el ID ó Identificador Físcal
+    console.log(req.params.ID) // => recuperamos el parametro que nos envian en la petición
+    const detailEmpresas = await detailsEmpresas.findById(req.params.ID) // => recuperamos de la DB y lo almacenamos 
+    // console.log(detailEmpresas)
+    res.render('empresas/editEmpresa', {detailEmpresas}) // paso lo que recupero de la DB a la vista
 }
 
-detailsEmpresasCtrl.updateEmpresa = (req, res) => { // => actualiza los datos de una empresa por el ID ó Identificador Físcal
-    res.send('updateEmpresa')
+detailsEmpresasCtrl.updateEmpresa = async (req, res) => { // => actualiza los datos de una empresa por el ID ó Identificador Físcal
+    // console.log(req.body)
+    const {alternateName, logo, image, foundingDate, foundingLocation, isicV4, numberOfEmployees, taxID, description, propertyID, value, founder, jobTitle, worksFor, contactPoint, contactType, areaServed, availableLanguage, url, address, addressLocality, addressRegion, postalCode, streetAddress} = req.body  // => recuperar los datos del formulario en un objeto => destructuring
+    await detailsEmpresas.findByIdAndUpdate(req.params.ID, {alternateName, logo, image, foundingDate, foundingLocation, isicV4, numberOfEmployees, taxID, description, propertyID, value, founder, jobTitle, worksFor, contactPoint, contactType, areaServed, availableLanguage, url, address, addressLocality, addressRegion, postalCode, streetAddress})
+    req.flash('ok_messages', 'Empresa ACTUALIZADA correctamente')
+    res.redirect('/detailsEmpresas/')
 }
 
-detailsEmpresasCtrl.deleteEmpresa = (req, res) => { // => Elimina la empresa por el ID ó Identificador Físcal
-    res.send('deteleEmpresa')
+detailsEmpresasCtrl.deleteEmpresa = async(req, res) => { // => Elimina la empresa por el ID ó Identificador Físcal
+    // res.send('deteleEmpresa')
+    console.log(req.params.ID) // => recuperamos el parametro que nos envian en la petición
+    await detailsEmpresas.findByIdAndDelete(req.params.ID) // => eliminarlo del modelo
+    req.flash('ok_messages', 'Empresa ELIMINADA correctamente')
+    res.redirect('/detailsEmpresas/')
 }
 
 module.exports = detailsEmpresasCtrl // =>  detailsEmpresasCtrl va a ser utilizado por el ../routes/details.routes.js

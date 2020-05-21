@@ -19,8 +19,8 @@ router.post('/detailsEmpresas/addEmpresa', addEmpresa) // Envia el formulario al
 router.get('/detailsEmpresas/', listaEmpresas) // Recupera un listado de las empresas
 
 // Read and Update Empresas
-router.get('/detailsEmpresas/update/:ID', consultaEmpresa) // Recupera el formulario con los datos de la Empresa identificada el ID ó Identificador Físcal
-router.put('detailsEmpresas/update/:ID', updateEmpresa) // Update los datos de la empresa
+router.get('/detailsEmpresas/consulta/:ID', consultaEmpresa) // Recupera el formulario con los datos de la Empresa identificada el ID ó Identificador Físcal
+router.put('/detailsEmpresas/update/:ID', updateEmpresa) // Update los datos de la empresa
 
 // Delete Empresas
 router.delete('/detailsEmpresas/delete/:ID', deleteEmpresa) // Eliminar la Empresa identificada el ID ó Identificador Físcal

@@ -1,4 +1,43 @@
-<h1>listaEmpresas.hbs</h1>
-<pre>
-    {{detailsEmpresas}}
-</pre>
+<div class="row">
+    {{#each detailEmpresas}}
+    {{!-- <pre>{{this}}</pre> --}}
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title d-flex justify-content-between align-items-center">{{alternateName}} <a href="/detailsEmpresas/consulta/{{_id}}"><i class="fas fa-pencil"></i></a></h4>
+                    <p>{{alternateName}}</p>
+                    <p>{{logo}}</p>
+                    <p>{{image}}</p>
+                    <p>{{foundingDate}}</p>
+                    <p>{{foundingLocation}}</p>
+                    <p>{{isicV4}}</p>
+                    <p>{{numberOfEmployees}}</p>
+                    <p>{{taxID}}</p>
+                    <p>{{telephone}}</p>
+                    <p>{{description}}</p>
+                    <p>{{identifier}}</p>
+                    <p>{{propertyID}}</p>
+                    <p>{{value}}</p>
+                    <p>{{founder}}</p>
+                    <p>{{jobTitle}}</p>
+                    <p>{{worksFor}}</p>
+                    <p>{{contactPoint}}</p>
+                    <p>{{contactType}}</p>
+                    <p>{{areaServed}}</p>
+                    <p>{{availableLanguage}}</p>
+                    <p>{{url}}</p>
+                    <p>{{address}}</p>
+                    <p>{{addressLocality}}</p>
+                    <p>{{addressRegion}}</p>
+                    <p>{{postalCode}}</p>
+                    <p>{{streetAddress}}</p>
+                    <form action="/detailsEmpresas/delete/{{_id}}?_method=DELETE" method="POST">
+                        <input type="hidden" name="_method" id="_method" value="DELETE">
+                        <button type="submit" class="btn btn-danger btn-block btn-sm">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</div>
+
