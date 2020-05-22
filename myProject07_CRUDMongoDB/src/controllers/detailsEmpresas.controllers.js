@@ -21,19 +21,27 @@ detailsEmpresasCtrl.addEmpresa = async (req, res) => { // => crea una nueva empr
     console.log(newDetailsEmpresas) // imprime el objeto que va a guardar en la db con el _id
     // const obj = JSON.parse(JSON.stringify(req.body))
     // console.log(obj)
+    console.log("ID: => " + req.user.id)
+    newDetailsEmpresas.user = req.user.id
     await newDetailsEmpresas.save()
     req.flash('ok_messages', 'Empresa ADICIONADA correctamente')
     res.redirect('/detailsEmpresas/')
 }
 
 detailsEmpresasCtrl.listaEmpresas =  async (req, res) => { // => consulta todas las empresas
-    const detailEmpresas = await detailsEmpresas.find() // busca las empresas en la db y lo almacena en un arreglo
+    // const detailEmpresas = await detailsEmpresas.find() // busca las empresas en la db y lo almacena en un arreglo
+    const detailEmpresas = await detailsEmpresas.find({user: req.user.id}) // busca las empresas de un usuario
     res.render('empresas/listaEmpresas', {detailEmpresas}) // paso el arreglo como objeto al listaEmpresas.hbs
 }
 
 detailsEmpresasCtrl.consultaEmpresa = async(req, res) => { // => Recupera el formulario con los datos de una empresa por el ID ó Identificador Físcal
     console.log(req.params.ID) // => recuperamos el parametro que nos envian en la petición
     const detailEmpresas = await detailsEmpresas.findById(req.params.ID) // => recuperamos de la DB y lo almacenamos 
+        // recupera las detailEmpresas add por usuario
+        if(detailEmpresas.user != req.user.id){
+            req.flash('ko_messages', 'Usuario no autorizado')
+            return res.redirect('/detailsEmpresas/')
+        }
     // console.log(detailEmpresas)
     res.render('empresas/editEmpresa', {detailEmpresas}) // paso lo que recupero de la DB a la vista
 }

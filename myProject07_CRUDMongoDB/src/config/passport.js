@@ -14,12 +14,12 @@ passport.use(new localStrategy ({
     // validar que el email esta en la db - match
 
     const user = await User.findOne({email: useremail}) // consulta en db si existe, guarda el resultado en user
-    console.log("user:=> " + useremail + " " + user)
+    console.log("user: => " + useremail + " " + user)
     if(!user){ // => no existe un usuario retornamos un error con el callback para que acabe la autenticación y devuelva la vista 
         return done(null, false, {message: 'Usuario no Existe'}) // retorna el null para un error, el usuario no existe (false) y el mensaje de error, 
     } else { // => existe valido las contraseñas
         const match = await user.matchPass(userpasswd)
-        console.log("match:=> " + match)
+        console.log("match: => " + match)
         // comparar la contraseña
         if (match){ // coincide la contraseña => no hay error y guarda el usuario en la session
             return done(null, user) // retorna el null para un error y guarda el usuario en la sesion

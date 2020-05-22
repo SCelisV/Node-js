@@ -23,6 +23,10 @@ const detailsEmpresas = new Schema ({ // => define el esquema a utilizar
     taxID: String, 
     telephone: String, 
     description: String, 
+    user: {
+        type: String,
+        required: true
+    },
     identifier: {
         type: Schema.Types.ObjectId, 
         propertyID: String,
