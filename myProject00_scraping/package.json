@@ -10,7 +10,7 @@
     "fs-extra": "^8.1.0",
     "http": "0.0.0",
     "jsonfile": "^5.0.0",
-    "jsonld": "^2.0.2",
+    "jsonld": "^8.1.0",
     "line-by-line": "^0.1.6",
     "node-fetch": "^2.6.0",
     "request": "^2.88.0",
